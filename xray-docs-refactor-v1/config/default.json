@@ -1,0 +1,111 @@
+{
+  "project_name": "negocio",
+  "output_root": "NEGOCIO",
+  "write_original_copy": false,
+  "naming": {
+    "folder_len_min": 12,
+    "folder_len_max": 30,
+    "filename_len_min": 25,
+    "filename_len_max": 48,
+    "max_path_length": 180,
+    "allowed_extensions": [".md", ".json", ".docx"]
+  },
+  "phase_map": {
+    "00_admin": "00_admin",
+    "01_estrategia": "01_estrategia",
+    "02_discovery_validacao": "02_discovery-validacao",
+    "03_mvp_produto": "03_mvp-produto",
+    "04_vendas_marketing": "04_vendas-marketing",
+    "05_operacao_entrega": "05_operacao-entrega",
+    "06_financeiro_legal": "06_financeiro-legal",
+    "07_growth_analytics": "07_growth-analytics",
+    "99_arquivo": "99_arquivo"
+  },
+  "doc_types": [
+    "readme-operacional", "indice-mestre", "stack-acessos",
+    "lean-canvas", "hipoteses-criticas", "icp-card", "metricas-norte",
+    "mrd", "brd", "prfaq",
+    "roteiro-entrevista", "log-entrevistas", "experimentos",
+    "oferta-onepager", "pipeline-validacao",
+    "prd", "prd-lite", "frd", "nfr",
+    "backlog-mvp", "user-stories", "fluxos-ux", "dicionario-de-dados",
+    "roadmap", "roadmap-now-next-later",
+    "mensagem-comercial-base", "faq-objecoes", "crm-comercial", "dashboard-comercial",
+    "sop", "sop-onboarding", "sop-entrega", "sop-suporte",
+    "runbook", "operacoes-semana", "change-log",
+    "fluxo-caixa", "dre-gerencial", "precificacao",
+    "experimentos-growth", "dashboard-negocio",
+    "outro"
+  ],
+  "doc_type_phase_default": {
+    "mrd": "01_estrategia",
+    "brd": "01_estrategia",
+    "prfaq": "02_discovery_validacao",
+    "prd": "03_mvp_produto",
+    "prd-lite": "03_mvp_produto",
+    "frd": "03_mvp_produto",
+    "nfr": "03_mvp_produto",
+    "user-stories": "03_mvp_produto",
+    "roadmap": "07_growth_analytics",
+    "roadmap-now-next-later": "07_growth_analytics",
+    "sop": "05_operacao_entrega",
+    "runbook": "05_operacao_entrega"
+  },
+  "target_ext_by_doc_type": {
+    "default": ".md",
+    "stack-acessos": ".json",
+    "log-entrevistas": ".json",
+    "experimentos": ".json",
+    "pipeline-validacao": ".json",
+    "backlog-mvp": ".json",
+    "user-stories": ".json",
+    "dicionario-de-dados": ".json",
+    "crm-comercial": ".json",
+    "dashboard-comercial": ".json",
+    "operacoes-semana": ".json",
+    "fluxo-caixa": ".json",
+    "dre-gerencial": ".json",
+    "precificacao": ".json",
+    "experimentos-growth": ".json",
+    "dashboard-negocio": ".json"
+  },
+  "packs": {
+    "solo-mvp": {
+      "label": "Solo MVP (recomendado)",
+      "description": "Pilha mínima para solo founder: valida proposta, define produto, organiza execução.",
+      "doc_types": ["prfaq", "prd-lite", "user-stories", "nfr", "sop"]
+    },
+    "stakeholder": {
+      "label": "Stakeholder / Cliente",
+      "description": "Quando há múltiplos decisores, orçamento ou escopo contratual.",
+      "doc_types": ["mrd", "brd", "prd", "roadmap"]
+    },
+    "tecnico": {
+      "label": "Técnico / Low-code",
+      "description": "Quando há automações, integrações ou stack que pode quebrar.",
+      "doc_types": ["frd", "nfr", "runbook", "user-stories"]
+    },
+    "operacional": {
+      "label": "Operacional",
+      "description": "Padronizar tarefas repetitivas e resposta a incidentes.",
+      "doc_types": ["sop", "sop-onboarding", "sop-entrega", "runbook"]
+    },
+    "completo": {
+      "label": "Completo",
+      "description": "Todos os tipos documentais novos habilitados.",
+      "doc_types": ["mrd","brd","prfaq","prd","prd-lite","frd","nfr","roadmap","user-stories","backlog-mvp","sop","sop-onboarding","sop-entrega","sop-suporte","runbook"]
+    }
+  },
+  "lite_overrides": {
+    "mrd":     { "max_chars": 3000, "required_sections": ["mercado-alvo","dores-principais","oportunidade","contexto-competitivo"] },
+    "brd":     { "max_chars": 4000, "required_sections": ["objetivo-negocio","escopo","stakeholders","restricoes"] },
+    "prfaq":   { "max_chars": 3500, "required_sections": ["press-release","faq"] },
+    "prd":     { "max_chars": 5000, "required_sections": ["objetivo","usuarios-alvo","funcionalidades","criterios-sucesso"] },
+    "prd-lite":{ "max_chars": 3000, "required_sections": ["objetivo","usuarios-alvo","funcionalidades","criterios-sucesso"] },
+    "frd":     { "max_chars": 4000, "required_sections": ["fluxos-principais","regras-negocio","validacoes"] },
+    "nfr":     { "max_chars": 1500, "required_sections": ["performance","seguranca","disponibilidade"] },
+    "roadmap": { "max_chars": 2000, "required_sections": ["now","next","later"] },
+    "sop":     { "max_chars": 2000, "required_sections": ["objetivo","responsavel","passos","excecoes"] },
+    "runbook": { "max_chars": 2000, "required_sections": ["gatilho","diagnostico","acoes","escalonamento"] }
+  }
+}

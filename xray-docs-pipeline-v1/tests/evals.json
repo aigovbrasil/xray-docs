@@ -1,0 +1,145 @@
+[
+  {
+    "id": "eval-001",
+    "description": "Product profile — MVP briefing",
+    "prompt": "Quero criar um produto SaaS de gestão de contratos para pequenas empresas. Já validei com 5 potenciais clientes que o problema existe. Preciso estruturar a documentação do produto.",
+    "expected_profile": "product",
+    "expected_behavior": [
+      "Identifies 'product' profile from signals: 'produto', 'SaaS', 'documentação do produto'",
+      "Runs Phase 0 intake — produces Context Pack",
+      "Labels customer validation as [FATO], everything else as [HIPÓTESE]",
+      "Gate 0 presented before proceeding",
+      "Proposes graph: PRFAQ-lite → PRD-lite → Roadmap → User Stories → Backlog"
+    ],
+    "should_not": [
+      "Generate documents before Gate 0 approval",
+      "Run Agent 1 (no market research profile)",
+      "Skip epistemic labels"
+    ]
+  },
+  {
+    "id": "eval-002",
+    "description": "Market research profile — new segment exploration",
+    "prompt": "Estou pensando em entrar no mercado de RH para startups. Quero entender o TAM, ICP e concorrência antes de decidir qualquer coisa.",
+    "expected_profile": "market-research",
+    "expected_behavior": [
+      "Identifies 'market-research' profile from: 'mercado', 'TAM', 'ICP'",
+      "Runs Agent 1 before Context Pack",
+      "Produces MRD-lite as primary output",
+      "All market size figures labeled [INFERÊNCIA] or [HIPÓTESE] with sources"
+    ],
+    "should_not": [
+      "Produce PRD or product documents",
+      "Skip Agent 1",
+      "Present market data without epistemic labels"
+    ]
+  },
+  {
+    "id": "eval-003",
+    "description": "Operations profile — SOP documentation",
+    "prompt": "Preciso documentar o processo de onboarding de clientes da minha empresa. Já faço isso há 6 meses, sei exatamente os passos, mas nunca escrevi.",
+    "expected_profile": "operations",
+    "expected_behavior": [
+      "Identifies 'operations' profile from: 'processo', 'onboarding'",
+      "Asks intake questions about the process",
+      "Produces SOP as primary output",
+      "Process steps labeled [FATO] since user confirmed real repetitions exist",
+      "Asks if runbook is needed (automations?)"
+    ],
+    "should_not": [
+      "Produce PRD or product documents",
+      "Run Agent 1",
+      "Skip asking about automations/systems involved"
+    ]
+  },
+  {
+    "id": "eval-004",
+    "description": "Gap Report trigger — missing market data for MRD",
+    "prompt": "Cria o MRD para meu produto de logística. O produto resolve atrasos em entregas last-mile.",
+    "expected_profile": "product",
+    "expected_behavior": [
+      "Starts Phase 0 intake",
+      "Identifies missing: market_segment specifics, ICP, competitive signals",
+      "Emits Gap Report with options A and B",
+      "Blocks MRD generation until user responds",
+      "Does not invent market data"
+    ],
+    "should_not": [
+      "Generate MRD with invented market size",
+      "Proceed without Gate 0",
+      "Use [FATO] for unconfirmed data"
+    ]
+  },
+  {
+    "id": "eval-005",
+    "description": "Full corpus — complete playbook request",
+    "prompt": "Monta o corpus completo para minha startup de EdTech. Tenho um briefing: plataforma de microlearning para times de vendas em empresas B2B, ticket médio R$500/usuário/mês, já tenho 3 clientes piloto pagando.",
+    "expected_profile": "full-corpus",
+    "expected_behavior": [
+      "Identifies 'full-corpus' from: 'corpus completo'",
+      "Runs Agent 1 for market research",
+      "Labels pilot customers [FATO], all projections [HIPÓTESE]",
+      "Proposes full document graph: vision → MRD → PRFAQ → Business Case → PRD → Roadmap → Stories → Backlog",
+      "Gate 0 presented with Context Pack before any document generation",
+      "Offers financial spreadsheet at end"
+    ],
+    "should_not": [
+      "Skip Agent 1",
+      "Generate documents before gate approvals",
+      "Treat pilot data as full market validation"
+    ]
+  },
+  {
+    "id": "eval-006",
+    "description": "Go-to-market with external stakeholder",
+    "prompt": "Preciso de uma proposta comercial para um cliente enterprise. Eles querem integração com o Salesforce e têm SLA de 99.9% no contrato.",
+    "expected_profile": "go-to-market",
+    "expected_behavior": [
+      "Identifies external stakeholder — includes BRD-lite in graph",
+      "Produces PRFAQ-lite + Business Case + BRD-lite",
+      "SLA requirement labeled [FATO] (from contract)",
+      "NFR one-pager triggered (SLA + integration)",
+      "Financial spreadsheet offered"
+    ],
+    "should_not": [
+      "Skip BRD-lite when external stakeholder exists",
+      "Ignore SLA in NFR",
+      "Label contract requirements as [HIPÓTESE]"
+    ]
+  },
+  {
+    "id": "eval-007",
+    "description": "Epistemic propagation — hypothesis must not be promoted",
+    "prompt": "Cria o PRD. No PRFAQ aprovado, a hipótese de preço de R$200/mês estava marcada como HIPÓTESE. O PRD pode usar esse número como base?",
+    "expected_profile": "product",
+    "expected_behavior": [
+      "Confirms the [HIPÓTESE] must propagate as [HIPÓTESE] in PRD",
+      "Labels price assumption as [HIPÓTESE] in PRD success metrics",
+      "Adds it to PRD Assumptions section",
+      "Does not silently promote to [FATO] or [INFERÊNCIA]"
+    ],
+    "should_not": [
+      "Use R$200/mês as [FATO] in PRD",
+      "Strip the label",
+      "Omit from assumptions section"
+    ]
+  },
+  {
+    "id": "eval-008",
+    "description": "Document graph dependency blocking",
+    "prompt": "Pula o PRFAQ e cria direto o PRD-lite. Não preciso do PRFAQ.",
+    "expected_profile": "product",
+    "expected_behavior": [
+      "Acknowledges the request",
+      "Explains that PRD-lite depends on PRFAQ-lite OR MRD-lite",
+      "Offers alternative: use MRD-lite as upstream instead",
+      "Does not generate PRD without at least one approved upstream dependency",
+      "Gate logic respected"
+    ],
+    "should_not": [
+      "Generate PRD-lite without any upstream dependency",
+      "Ignore the dependency rule silently",
+      "Be unnecessarily rigid without explaining alternatives"
+    ]
+  }
+]

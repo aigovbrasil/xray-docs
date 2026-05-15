@@ -1,0 +1,104 @@
+{
+  "profiles": [
+    {
+      "id": "market-research",
+      "name": "Market Research",
+      "trigger_signals": ["pesquisa", "mercado", "ICP", "segmento", "concorrentes", "TAM", "SAM", "research", "market"],
+      "description": "Deep market intelligence before product decisions. Runs Agent 1 first.",
+      "chain_start": "Agent 1 → Context Pack → MRD-lite",
+      "required_documents": ["mrd-lite"],
+      "optional_documents": ["vision-framing", "business-case", "prfaq-lite"],
+      "phases_active": [0, 1, 2],
+      "agent1_required": true,
+      "agent2_available": false,
+      "financial_spreadsheet": false,
+      "linear_export": false,
+      "intake_questions": [
+        "Qual mercado ou segmento você quer pesquisar?",
+        "Qual é sua hipótese inicial sobre o ICP?",
+        "Você já tem dados primários (entrevistas, pesquisas) ou é tudo secondário?"
+      ]
+    },
+    {
+      "id": "product",
+      "name": "Product",
+      "trigger_signals": ["produto", "construir", "MVP", "PRD", "feature", "build", "product", "roadmap", "backlog"],
+      "description": "Product definition pipeline. From vision to backlog.",
+      "chain_start": "PRFAQ-lite → PRD-lite → Roadmap → User Stories → Backlog",
+      "required_documents": ["prfaq-lite", "prd-lite", "roadmap", "user-stories", "backlog"],
+      "optional_documents": ["mrd-lite", "business-case", "frd-lite", "nfr-onepager", "adr-decision-log", "release-plan"],
+      "phases_active": [0, 1, 2, 3, 4],
+      "agent1_required": false,
+      "agent2_available": false,
+      "financial_spreadsheet": false,
+      "linear_export": true,
+      "intake_questions": [
+        "O que o produto faz e para quem?",
+        "Você já tem pesquisa de mercado ou ICP definido?",
+        "Qual é a prioridade: validar a proposta ou já detalhar o produto?"
+      ]
+    },
+    {
+      "id": "go-to-market",
+      "name": "Go-to-Market",
+      "trigger_signals": ["lançar", "campanha", "proposta", "venda", "comercial", "GTM", "launch", "pitch", "proposta comercial"],
+      "description": "Commercial and launch pipeline. Business case + BRD + financial model.",
+      "chain_start": "PRFAQ-lite → Business Case → BRD-lite",
+      "required_documents": ["prfaq-lite", "business-case"],
+      "optional_documents": ["mrd-lite", "brd-lite", "release-plan"],
+      "phases_active": [0, 1, 2],
+      "agent1_required": false,
+      "agent2_available": false,
+      "financial_spreadsheet": true,
+      "linear_export": false,
+      "intake_questions": [
+        "Você está lançando para clientes novos ou expandindo uma base existente?",
+        "Existe um stakeholder externo (cliente, investidor, parceiro) que precisa aprovar algo?",
+        "Você precisa de um modelo financeiro detalhado ou uma projeção de alto nível?"
+      ]
+    },
+    {
+      "id": "operations",
+      "name": "Operations",
+      "trigger_signals": ["processo", "SOP", "operação", "runbook", "automação", "onboarding", "ops", "procedure", "workflow interno"],
+      "description": "Operations documentation. SOPs, Runbooks, Integration specs.",
+      "chain_start": "Context Pack → SOP → Runbook → Data Integration Spec",
+      "required_documents": ["sop"],
+      "optional_documents": ["runbook", "data-integration-spec"],
+      "phases_active": [0, 1, 5],
+      "agent1_required": false,
+      "agent2_available": true,
+      "financial_spreadsheet": false,
+      "linear_export": false,
+      "intake_questions": [
+        "Qual processo você quer documentar?",
+        "O processo já existe e está funcionando, ou ainda está sendo desenhado?",
+        "Existem automações ou integrações envolvidas que também precisam de runbook?"
+      ]
+    },
+    {
+      "id": "full-corpus",
+      "name": "Full Corpus",
+      "trigger_signals": ["corpus completo", "workbook", "playbook", "tudo", "documentação completa", "full docs", "estrutura completa"],
+      "description": "Complete document corpus from scratch. All phases, all documents.",
+      "chain_start": "Agent 1 → Vision Framing → Full chain",
+      "required_documents": ["vision-framing", "mrd-lite", "prfaq-lite", "business-case", "prd-lite", "roadmap", "user-stories", "backlog"],
+      "optional_documents": ["brd-lite", "frd-lite", "nfr-onepager", "adr-decision-log", "release-plan", "sop", "runbook", "data-integration-spec"],
+      "phases_active": [0, 1, 2, 3, 4, 5],
+      "agent1_required": true,
+      "agent2_available": true,
+      "financial_spreadsheet": true,
+      "linear_export": true,
+      "intake_questions": [
+        "Me dá um dump completo: o que é o negócio, para quem, qual problema resolve, o que você já sabe e o que ainda é hipótese.",
+        "Qual é o prazo mais urgente — mercado, produto, operação ou comercial?",
+        "Você tem dados primários (clientes, entrevistas, contratos) ou está partindo do zero?"
+      ]
+    }
+  ],
+  "profile_selection_logic": {
+    "ambiguous_trigger": "Quando o perfil não está claro, perguntar: 'Qual é o objetivo principal — mercado, produto, operação ou proposta comercial?'",
+    "multiple_signals": "Se múltiplos perfis são sinalizados, preferir o mais abrangente ou perguntar ao usuário.",
+    "default_fallback": "product"
+  }
+}

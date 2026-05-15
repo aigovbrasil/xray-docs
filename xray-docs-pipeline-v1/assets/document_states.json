@@ -1,0 +1,93 @@
+{
+  "document_states": {
+    "states": [
+      "not_planned",
+      "planned",
+      "blocked_missing_inputs",
+      "ready_to_generate",
+      "generated_pending_validation",
+      "failed_validation",
+      "pending_human_review",
+      "approved",
+      "archived_superseded"
+    ],
+    "transitions": [
+      {
+        "from": "not_planned",
+        "to": "planned",
+        "trigger": "document added to approved Document Graph"
+      },
+      {
+        "from": "planned",
+        "to": "blocked_missing_inputs",
+        "trigger": "required_inputs check fails — Gap Report emitted"
+      },
+      {
+        "from": "planned",
+        "to": "ready_to_generate",
+        "trigger": "all required_inputs present AND upstream dependencies approved"
+      },
+      {
+        "from": "blocked_missing_inputs",
+        "to": "ready_to_generate",
+        "trigger": "user provides missing input OR chooses option B (provisional hypothesis)"
+      },
+      {
+        "from": "ready_to_generate",
+        "to": "generated_pending_validation",
+        "trigger": "document generation complete"
+      },
+      {
+        "from": "generated_pending_validation",
+        "to": "failed_validation",
+        "trigger": "self-validation against acceptance_criteria fails"
+      },
+      {
+        "from": "generated_pending_validation",
+        "to": "pending_human_review",
+        "trigger": "self-validation passes — document presented to user"
+      },
+      {
+        "from": "failed_validation",
+        "to": "ready_to_generate",
+        "trigger": "correction applied — ready to regenerate"
+      },
+      {
+        "from": "pending_human_review",
+        "to": "approved",
+        "trigger": "user explicitly approves at gate"
+      },
+      {
+        "from": "pending_human_review",
+        "to": "ready_to_generate",
+        "trigger": "user requests changes — back to generation"
+      },
+      {
+        "from": "approved",
+        "to": "archived_superseded",
+        "trigger": "new version of document approved — previous version archived"
+      }
+    ],
+    "blocking_states": [
+      "blocked_missing_inputs",
+      "failed_validation",
+      "pending_human_review"
+    ],
+    "canonical_states": [
+      "approved"
+    ],
+    "rules": {
+      "max_failed_validations": 2,
+      "on_max_failures": "Stop generation. Surface to user with full context. Request human review.",
+      "downstream_propagation": "Documents may only use upstream documents in 'approved' state as sources.",
+      "draft_reuse": "Documents in any state other than 'approved' must not be used as canonical sources.",
+      "supersession": "When a document is superseded, all downstream documents that referenced it must be flagged for re-validation."
+    }
+  },
+  "corpus_states": {
+    "in_progress": "At least one document is in a non-terminal state",
+    "blocked": "At least one document is in blocked_missing_inputs state with no pending action",
+    "complete": "All planned documents are in approved state",
+    "partial": "Some documents approved, some not_planned — intentional partial corpus"
+  }
+}

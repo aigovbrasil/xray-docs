@@ -1,0 +1,35 @@
+{
+  "project_name": "negocio",
+  "output_root": "NEGOCIO",
+  "write_original_copy": false,
+  "documents": [
+    {
+      "source_path": "/repo/entrada/entrevista_clinica.txt",
+      "detected_ext": ".txt",
+      "phase_key": "02_discovery_validacao",
+      "doc_type": "roteiro-entrevista",
+      "title": "Roteiro entrevista clínica",
+      "objective": "Padronizar entrevistas de validação com clínicas odontológicas.",
+      "target_extension": ".md",
+      "refactored_content": "# Roteiro de entrevista\n\n## Objetivo\n\nValidar a dor principal ligada a perda de leads no WhatsApp.\n\n## Perguntas\n\n- Como os leads chegam hoje?\n- Onde o follow-up falha?\n- Qual impacto financeiro ou operacional isso gera?\n\n## Observações\n\n- INCOMPLETO: confirmar ticket médio.",
+      "warnings": [
+        "Alguns trechos do bruto eram redundantes e foram condensados."
+      ],
+      "confidence": 0.88
+    },
+    {
+      "source_path": "/repo/entrada/financeiro_rascunho.md",
+      "detected_ext": ".md",
+      "phase_key": "06_financeiro_legal",
+      "doc_type": "fluxo-caixa",
+      "title": "Fluxo caixa base",
+      "objective": "Estruturar entradas e saídas para acompanhamento mensal.",
+      "target_extension": ".json",
+      "refactored_content": "{\"abas\":[\"entradas\",\"saidas\",\"resumo-mensal\"],\"colunas\":[\"data\",\"tipo\",\"categoria\",\"descricao\",\"valor\",\"status\"]}",
+      "warnings": [
+        "Documento de origem era parcial; revisar categorias financeiras."
+      ],
+      "confidence": 0.74
+    }
+  ]
+}
